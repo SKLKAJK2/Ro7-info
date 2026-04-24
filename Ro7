@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro7 Server | Official Page</title>
+    <style>
+        :root {
+            --card-bg: rgba(15, 15, 15, 0.85);
+            --accent: #ffffff;
+            --text-dim: #aaa;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --mod-color: #43b581;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: url('8173378a869bcd799699d5ad2942b577.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: white;
+            padding-top: 50px;
+            padding-bottom: 40px; /* تقليل المسافة للسماح بظهور الحقوق */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); 
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 900px;
+            animation: fadeIn 1.2s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 45px 40px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            margin-bottom: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.8rem; margin-bottom: 10px; color: #fff; }
+        .welcome-msg { color: #888; letter-spacing: 5px; margin-bottom: 30px; font-weight: 300; }
+
+        .btn-action {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 14px 35px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 5px;
+        }
+
+        .btn-action:hover {
+            background: #aaa;
+            transform: scale(1.05);
+        }
+
+        .mod-btn { background: transparent; color: var(--mod-color); border: 2px solid var(--mod-color); }
+        .mod-btn:hover { background: var(--mod-color); color: #000; }
+
+        .expand-content { max-height: 0; overflow: hidden; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+        .expand-content.active { max-height: 600px; opacity: 1; margin-top: 25px; }
+
+        .info-box { line-height: 2; color: #ccc; background: rgba(255,255,255,0.03); padding: 25px; border-radius: 20px; border-right: 4px solid #fff; text-align: justify; }
+        .mod-box { border-right-color: var(--mod-color); }
+
+        .dev-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dev-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+        }
+
+        .dev-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+        .dev-name { font-weight: bold; font-size: 1.2rem; display: block; margin-bottom: 5px; }
+        .dev-tag { font-size: 0.9rem; color: #555; font-family: monospace; display: block; margin-bottom: 20px; }
+
+        .sub-task-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 0;
+            width: 80%;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.3s all ease;
+        }
+
+        .sub-task-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .dev-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+            color: #999;
+            line-height: 1.7;
+        }
+
+        .dev-details.open {
+            max-height: 200px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+
+        /* تنسيق الحقوق */
+        .footer-credits {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .footer-credits span {
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight { color: #fff; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="main-card">
+            <h1>Ro7</h1>
+            <p class="welcome-msg">OFFICIAL INTERFACE</p>
+            
+            <button class="btn-action" onclick="toggleSection('about-box')">About Ro7</button>
+            <button class="btn-action mod-btn" onclick="toggleSection('mod-box')">About Ro7 Moderator</button>
+            
+            <div id="about-box" class="expand-content">
+                <div class="info-box">
+                    <span class="highlight">أفضل سيرفر</span> للدردشة والتعارف على الأصدقاء، وجميع من في السيرفر محترمون وذو ذوق راقي واحترام متبادل بين الجميع. 
+                    <br><br>
+                    تم فيه برمجة جميع البوتات بواسطة <span class="highlight">أفضل مطورين</span> للبوتات، وأيضاً توفر البوتات جميع احتياجاتكم.
+                </div>
+            </div>
+
+            <div id="mod-box" class="expand-content">
+                <div class="info-box mod-box">
+                    <span class="highlight" style="color:var(--mod-color)">فريق مشرفين سيرفر Ro7:</span>
+                    <br>
+                    مدربين ومجهزين لكي يستقبلون مشاكلكم وشكواكم بكل سرور، وسوف يساعدونكم لحل جميع مشاكلكم داخل السيرفر دون عناء.
+                </div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <h2>TEAM DEVELOPERS</h2>
+            <p style="color: #444; margin-bottom: 30px;">نخبة المطورين القائمين على النظام</p>
+
+            <div class="dev-grid">
+                <div class="dev-item" style="border-color: rgba(255,255,255,0.2);">
+                    <span class="dev-name">فراس (Owner)</span>
+                    <span class="dev-tag">8d44</span>
+                    <button class="sub-task-btn" onclick="toggleDev(this)">المهام</button>
+                    <div class="dev-details">
+                        هو من قام بإنشاء السيرفر واستدعاء أعضاء التصميم، وتنظيم وترتيب التصاميم الخاصة في سيرفر روح.
+                    </div>
+                </div>
+
+                <div class="dev-item">
+                    <span class="dev-name">ريز</span>
+                    <span class="dev-tag">07x.</span>
+                    <button class="sub-task-btn" onclick="toggleDev(this)">المهام</button>
+                    <div class="dev-details">
+                        المسؤول بتنظيم قنوات المشرفين وإدارة وترتيب أوامر السيرفر، والمسؤول عن جميع التحديثات الجديدة.
+                    </div>
+                </div>
+
+                <div class="dev-item">
+                    <span class="dev-name">سماعه</span>
+                    <span class="dev-tag">s8q5</span>
+                    <button class="sub-task-btn" onclick="toggleDev(this)">المهام</button>
+                    <div class="dev-details">
+                        المسؤول عن برمجة بوتات السيرفر والأوامر المخصصة، ومنظم فعاليات السيرفر والمسؤول عن البوتات.
+                    </div>
+                </div>
+
+                <div class="dev-item">
+                    <span class="dev-name">شماعه</span>
+                    <span class="dev-tag">9nlzj</span>
+                    <button class="sub-task-btn" onclick="toggleDev(this)">المهام</button>
+                    <div class="dev-details">
+                        المسؤول عن برمجة وتنظيم قواعد البوتات، ومنظم رومات الأعضاء والدعم الفني وإرشادات البوتات.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-credits">
+            Awesome Developer for the website <span>rEz</span>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            const boxes = ['about-box', 'mod-box'];
+            boxes.forEach(boxId => {
+                if(boxId !== id) document.getElementById(boxId).classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function toggleDev(btn) {
+            const detail = btn.nextElementSibling;
+            detail.classList.toggle('open');
+            
+            if(detail.classList.contains('open')) {
+                btn.style.background = "#fff";
+                btn.style.color = "#000";
+            } else {
+                btn.style.background = "rgba(255, 255, 255, 0.1)";
+                btn.style.color = "#fff";
+            }
+        }
+    </script>
+
+</body>
+</html>
